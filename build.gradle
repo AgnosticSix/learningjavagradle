@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.5.0.2730"
 }
 
 group = 'com.wizeline.gradle'
@@ -14,7 +15,7 @@ configurations {
 	}
 }
 
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 
 repositories {
 	mavenCentral()
@@ -51,21 +52,29 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-jacoco {
-    toolVersion = "0.8.8"
-}
-test {
-    useJUnitPlatform()
-    dependsOn 'cleanTest'
-    testLogging{
-        events "skipped", "passed", "failed"
-    }
-    finalizedBy 'jacocoTestReport'
-}
-jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
-    //finalizedBy 'sonarqube'
-    reports{
-        xml.required = true
-    }
+//jacoco {
+//    toolVersion = "0.8.8"
+//}
+//test {
+//    useJUnitPlatform()
+//    dependsOn 'cleanTest'
+//    testLogging{
+//        events "skipped", "passed", "failed"
+//    }
+//    finalizedBy 'jacocoTestReport'
+//}
+//jacocoTestReport {
+//    dependsOn test // tests are required to run before generating the report
+//    //finalizedBy 'sonarqube'
+//    reports{
+//        xml.required = true
+//    }
+//}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "AgnosticSix_learningjavagradle"
+		property "sonar.organization", "agnosticsix"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
 }

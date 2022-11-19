@@ -1,7 +1,6 @@
 package com.wizeline.gradle.learningjavagradle.batch;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import com.wizeline.gradle.learningjavagradle.controller.BatchController;
@@ -19,9 +18,6 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 
 public class BatchTests {
-	
-	@Mock
-	UserProcessor userProcessor;
 
 	@Mock
 	UserJob userJob;
@@ -41,14 +37,10 @@ public class BatchTests {
 	@InjectMocks
 	BatchController batchController;
 	
-	private static final String DATOS = "mateo";
-	
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 	}
-	
-
 
 	public void batch() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 		when (userJob.printUsersJob()).thenReturn(job);
@@ -56,7 +48,6 @@ public class BatchTests {
 		when(jobLauncher.run(job, jobParameters)).thenReturn(jobExecution);
 
 		assertNotNull(batchController.startBatch());
-
 
 	}
 
