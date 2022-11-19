@@ -55,8 +55,8 @@ public class UserServiceTest {
 		assertNotNull(password);
 		
 		String passwordEncriptada = encryptorRSA.encrypt(password.toString());
-		
-		assertEquals(encryptorRSA.decrypt(passwordEncriptada), password);
+
+		assertEquals(encryptorRSA.decrypt(passwordEncriptada), password.toString());
 		
 		userDTO.setUser(USER);
 		userDTO.setPassword(passwordEncriptada);
@@ -66,7 +66,7 @@ public class UserServiceTest {
 		
 		assertAll(
 				() -> assertNotNull(response),
-				() -> assertEquals(response.getCode(), 200)
+				() -> assertEquals(response.getCode(), "200")
 				);
 	}
 	
@@ -76,7 +76,7 @@ public class UserServiceTest {
 		
 		String passwordEncriptada = encryptorRSA.encrypt(password.toString());
 		
-		assertEquals(encryptorRSA.decrypt(passwordEncriptada), password);
+		assertEquals(encryptorRSA.decrypt(passwordEncriptada), password.toString());
 		
 		userDTO.setUser(USER);
 		userDTO.setPassword(passwordEncriptada);
@@ -86,7 +86,7 @@ public class UserServiceTest {
 		
 		assertAll(
 				() -> assertNotNull(response),
-				() -> assertEquals(response.getCode(), 400)
+				() -> assertEquals(response.getCode(), "400")
 				);
 	}
 }
