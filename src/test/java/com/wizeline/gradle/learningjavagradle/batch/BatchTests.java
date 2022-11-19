@@ -57,7 +57,6 @@ public class BatchTests {
 
 		assertNotNull(batchController.startBatch());
 
-
 	}
 
 }
