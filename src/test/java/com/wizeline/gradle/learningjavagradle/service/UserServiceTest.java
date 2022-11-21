@@ -1,8 +1,7 @@
 package com.wizeline.gradle.learningjavagradle.service;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.security.InvalidKeyException;
@@ -13,9 +12,14 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.wizeline.gradle.learningjavagradle.model.RandomPassword;
@@ -25,6 +29,9 @@ import com.wizeline.gradle.learningjavagradle.repository.UserRepositoryImpl;
 import com.wizeline.gradle.learningjavagradle.singleton.RestTemplateConfig;
 import com.wizeline.gradle.learningjavagradle.utils.EncryptorRSA;
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 	@Mock
 	private MongoTemplate template;
@@ -48,7 +55,8 @@ public class UserServiceTest {
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 	}
-	
+
+	@Test
 	public void createUser() 
 			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		RandomPassword password = RestTemplateConfig.getInstance().getRandomPassword();
@@ -69,7 +77,8 @@ public class UserServiceTest {
 				() -> assertEquals(response.getCode(), "200")
 				);
 	}
-	
+
+	@Test
 	public void createUserError() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		RandomPassword password = RestTemplateConfig.getInstance().getRandomPassword();
 		assertNotNull(password);
