@@ -6,6 +6,7 @@ import com.wizeline.gradle.learningjavagradle.repository.BankingAccountRepositor
 import com.wizeline.gradle.learningjavagradle.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -13,13 +14,12 @@ public class ServiceTest {
     @Mock
     UserRepository userRepository;
 
-    @Mock
-    BankingAccountRepository bankingAccountRepository;
-
     UserService userService;
 
     @BeforeEach
-    void setUp() {
-        userService = new UserServiceImpl(userRepository, bankingAccountRepository);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
+
+
 }
