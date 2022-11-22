@@ -43,7 +43,7 @@ public class BatchTests {
 	}
 
 	@Test
-	public void batch() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+	public void batchTest() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
 		Job job = new FlowJob("jobTest");
 		JobExecution jobExecution = new JobExecution(1L);
@@ -54,8 +54,5 @@ public class BatchTests {
 
 		assertNotNull(batchController.startBatch());
 		assertEquals(batchController.startBatch().getStatusCode().value(), HttpStatus.OK.value());
-
-
 	}
-
 }
