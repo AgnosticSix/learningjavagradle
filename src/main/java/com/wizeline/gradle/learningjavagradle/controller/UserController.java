@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.wizeline.gradle.learningjavagradle.repository.UserRepositoryImpl;
+import com.wizeline.gradle.learningjavagradle.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ import com.wizeline.gradle.learningjavagradle.utils.CreaUsuariosThread;
 public class UserController{
 
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
 
 	@Autowired
 	CommonServices commonServices;
@@ -80,7 +81,7 @@ public class UserController{
 		ResponseDTO response = new ResponseDTO();
 		UserRepositoryImpl repository = new UserRepositoryImpl();
 		
-		CreaUsuariosThread usuariosThread = new CreaUsuariosThread(userDTOList, repository);
+		CreaUsuariosThread usuariosThread = new CreaUsuariosThread(userDTOList, userService);
 		
 		usuariosThread.start();
 		

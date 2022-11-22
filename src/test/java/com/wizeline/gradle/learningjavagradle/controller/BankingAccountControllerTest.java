@@ -9,6 +9,7 @@ import com.wizeline.gradle.learningjavagradle.service.BankAccountService;
 import com.wizeline.gradle.learningjavagradle.utils.CommonServices;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class BankingAccountControllerTest {
     private final String PASS_TEST = "Thenew4@";
     private final String DATE_TEST = "01-01-1980";
 
-    @Autowired
+    @InjectMocks
     BankingAccountController bankingAccountController;
 
     @Mock
@@ -45,9 +46,6 @@ public class BankingAccountControllerTest {
 
     @MockBean
     CommonServices commonServices;
-
-    @Mock
-    UserDTO userDTO;
 
     @Test
     public void getUserAccountTest() {

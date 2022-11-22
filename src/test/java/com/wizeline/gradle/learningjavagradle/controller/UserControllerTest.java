@@ -47,9 +47,6 @@ public class UserControllerTest {
     @Mock
     ResponseDTO responseDTO;
 
-    @Mock
-    UserRepositoryImpl repository;
-
     @BeforeEach
     void init() {
         MockitoAnnotations.openMocks(this);
@@ -75,7 +72,7 @@ public class UserControllerTest {
         LOGGER.info("CreateUsers Testing...");
         List<UserDTO> userDTOList = List.of(new UserDTO("userT1", "passT1"), new UserDTO("userT2", "passT2"));
 
-        CreaUsuariosThread thread = new CreaUsuariosThread(userDTOList, repository);
+        CreaUsuariosThread thread = new CreaUsuariosThread(userDTOList, userService);
 
         assertAll(
                 () -> assertNotNull(thread),
