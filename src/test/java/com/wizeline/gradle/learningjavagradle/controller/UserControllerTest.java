@@ -21,6 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static com.wizeline.gradle.learningjavagradle.Datos.Datos.*;
@@ -53,7 +58,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void createUserTest() {
+    public void createUserTest() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         LOGGER.info("CreateUser Testing...");
         lenient().when(userService.createUser(USER_001.getUser(), USER_001.getPassword())).thenReturn(responseDTO);
 
@@ -83,7 +88,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void createUserWithRandomPasswordTest() {
+    public void createUserWithRandomPasswordTest() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         LOGGER.info("createUserWithRandomPassword Testing...");
         UserDTO userDTOMock = new UserDTO("user1", "");
         lenient().when(userService.createUser(userDTOMock.getUser())).thenReturn(responseDTO);

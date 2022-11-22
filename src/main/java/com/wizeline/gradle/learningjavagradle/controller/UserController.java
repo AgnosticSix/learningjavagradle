@@ -3,6 +3,8 @@ package com.wizeline.gradle.learningjavagradle.controller;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,10 @@ import com.wizeline.gradle.learningjavagradle.model.UserDTO;
 import com.wizeline.gradle.learningjavagradle.service.UserService;
 import com.wizeline.gradle.learningjavagradle.utils.CommonServices;
 import com.wizeline.gradle.learningjavagradle.utils.CreaUsuariosThread;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 @RestController
 @RequestMapping("/user")
@@ -63,7 +69,8 @@ public class UserController{
 	}
 
 	@PostMapping("createUser")
-	public  ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO userDTO) {
+	public  ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO userDTO)
+			throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 		LOGGER.info(msgProcPeticion);
 		ResponseDTO response;
 		
@@ -114,7 +121,8 @@ public class UserController{
 		return queryPairs;
 	}
 
-	private ResponseDTO createUser(String user, String password) {
+	private ResponseDTO createUser(String user, String password)
+			throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 		if(password != null) {
 			return userService.createUser(user, password);
 		} else {
