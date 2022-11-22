@@ -1,5 +1,7 @@
 package com.wizeline.gradle.learningjavagradle.service;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 import com.wizeline.gradle.learningjavagradle.repository.UserRepositoryImpl;
@@ -8,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.wizeline.gradle.learningjavagradle.model.ResponseDTO;
 import com.wizeline.gradle.learningjavagradle.utils.Utils;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -34,7 +40,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public ResponseDTO createUser(String user) {
+	public ResponseDTO createUser(String user) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 		LOGGER.info("Inicia procesamiento en capa de negocio");
 		ResponseDTO response = new ResponseDTO();
 		String result = "fail";

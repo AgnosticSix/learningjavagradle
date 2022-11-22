@@ -14,6 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceTest.class);
@@ -41,7 +47,8 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void createUserWithRandomPasswordTest() {
+	public void createUserWithRandomPasswordTest()
+			throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 		LOGGER.info("createUserWithPassword Testing...");
 		String response = "";
 
@@ -64,7 +71,8 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void createUserWithoutPasswordErrorTest() {
+	public void createUserWithoutPasswordErrorTest()
+			throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 		LOGGER.info("createUserWithPasswordError Testing...");
 		String response = "";
 
