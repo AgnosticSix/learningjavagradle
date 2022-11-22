@@ -5,12 +5,12 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.wizeline.gradle.learningjavagradle.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wizeline.gradle.learningjavagradle.model.BankAccountDTO;
 import com.wizeline.gradle.learningjavagradle.model.ResponseDTO;
 import com.wizeline.gradle.learningjavagradle.model.UserDTO;
-import com.wizeline.gradle.learningjavagradle.repository.UserRepository;
 import com.wizeline.gradle.learningjavagradle.service.BankAccountService;
 import com.wizeline.gradle.learningjavagradle.service.UserService;
 import com.wizeline.gradle.learningjavagradle.utils.CommonServices;
@@ -45,9 +44,6 @@ public class UserController{
 
 	@Autowired
 	BankAccountService bankAccountService;
-	
-	@Autowired
-	UserRepository repository;
 
 	private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
 	String msgProcPeticion = "LearningJava - Inicia procesamiento de peticion ...";
@@ -55,7 +51,7 @@ public class UserController{
 	@GetMapping("/login")
 	public ResponseEntity<ResponseDTO> loginUser(@RequestParam String user, @RequestParam String password){
 		LOGGER.info(msgProcPeticion);
-		ResponseDTO response = new ResponseDTO();
+		ResponseDTO response;
 
 		LOGGER.info("LearningJava - Procesando peticion HTTP de tipo GET");
 		UserDTO userName = new UserDTO();
@@ -68,13 +64,13 @@ public class UserController{
 
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Content-Type", "application/json; charset=UTF-8");
-		return new ResponseEntity<ResponseDTO>(response, responseHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
 	}
 
 	@PostMapping("createUser")
 	public  ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO userDTO) {
 		LOGGER.info(msgProcPeticion);
-		ResponseDTO response = new ResponseDTO();
+		ResponseDTO response;
 		
 		
 		response = createUser(userDTO.getUser(), userDTO.getPassword());
@@ -88,6 +84,7 @@ public class UserController{
 	public  ResponseEntity createUsers(@RequestBody List<UserDTO> userDTOList) {
 		LOGGER.info(msgProcPeticion);
 		ResponseDTO response = new ResponseDTO();
+		UserRepositoryImpl repository = new UserRepositoryImpl();
 		
 		CreaUsuariosThread usuariosThread = new CreaUsuariosThread(userDTOList, repository);
 		
@@ -109,7 +106,7 @@ public class UserController{
 		Instant finalDeEjecucion = Instant.now();
 
 		LOGGER.info("LearningJava - Cerrando recursos ...");
-		String total = new String(String.valueOf(Duration.between(inicioDeEjecucion, finalDeEjecucion).toMillis()).concat(" segundos"));
+		String total = String.valueOf(Duration.between(inicioDeEjecucion, finalDeEjecucion).toMillis()).concat(" segundos");
 		LOGGER.info("Tiempo de respuesta: ".concat(total));
 
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -129,7 +126,7 @@ public class UserController{
 	}
 	
 	public static Map<String, String> splitQuery(URI uri) {
-		Map<String, String> queryPairs = new LinkedHashMap<String, String>();
+		Map<String, String> queryPairs = new LinkedHashMap<>();
 		String query = uri.getQuery();
 		String[] pairs = query.split("&");
 		for (String pair : pairs) {
