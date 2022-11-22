@@ -14,14 +14,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import com.wizeline.gradle.learningjavagradle.model.RandomPassword;
@@ -30,12 +23,9 @@ import com.wizeline.gradle.learningjavagradle.singleton.RestTemplateConfig;
 import com.wizeline.gradle.learningjavagradle.utils.EncryptorRSA;
 import com.wizeline.gradle.learningjavagradle.utils.exceptions.ExcepcionGenerica;
 
-@Repository
 public class UserRepositoryImpl implements UserRepository{
 	private static final Logger LOGGER = Logger.getLogger(UserRepositoryImpl.class.getName());
 
-	private RestTemplate restTemplate = new RestTemplate();
-	private ObjectMapper mapper = new ObjectMapper();
 
 	@Autowired
 	MongoTemplate template;
@@ -46,9 +36,7 @@ public class UserRepositoryImpl implements UserRepository{
 	@Override
 	public String createUser(String user, String password) {
 
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUser(user);
-		userDTO.setPassword(password);
+		UserDTO userDTO = new UserDTO(user,password);
 
 		template.save(userDTO);
 
@@ -68,10 +56,7 @@ public class UserRepositoryImpl implements UserRepository{
 			LOGGER.info("Error: " + e.getMessage());
 		}
 
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUser(user);
-		userDTO.setPassword(passwordEncriptada);
-
+		UserDTO userDTO = new UserDTO(user,passwordEncriptada);
 		template.save(userDTO);
 
 		LOGGER.info("Alta exitosa");
@@ -83,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository{
 
 		Optional<UserDTO> userOptional = buscarUsuario(user);
 
-		if(!userOptional.isPresent()) {
+		if(userOptional.isEmpty()) {
 			throw new ExcepcionGenerica(user);
 		}
 

@@ -5,12 +5,18 @@ import com.wizeline.gradle.learningjavagradle.model.UserDTO;
 import com.wizeline.gradle.learningjavagradle.service.UserService;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@SpringBootTest
+@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
     @InjectMocks
     UserController userController;
@@ -30,14 +36,14 @@ public class UserControllerTest {
     }
 
     @Test
-    void createUserTest() {
+    public void createUserTest() {
         when(userService.createUser(userDTO.getUser(), userDTO.getPassword())).thenReturn(responseDTO);
 
         assertNotNull(userController.createUser(userDTO));
     }
 
     @Test
-    void loginTest() {
+    public void loginTest() {
         when(userService.login("user", "password")).thenReturn(responseDTO);
         assertNotNull(userController.loginUser("user", "password"));
     }
