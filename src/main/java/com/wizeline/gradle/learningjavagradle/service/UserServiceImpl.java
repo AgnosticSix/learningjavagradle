@@ -3,6 +3,7 @@ package com.wizeline.gradle.learningjavagradle.service;
 import java.util.logging.Logger;
 
 import com.wizeline.gradle.learningjavagradle.repository.UserRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wizeline.gradle.learningjavagradle.model.ResponseDTO;
@@ -12,18 +13,20 @@ import com.wizeline.gradle.learningjavagradle.utils.Utils;
 public class UserServiceImpl implements UserService{
 	private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
 
+	@Autowired
+	UserRepositoryImpl userDao;
+
 	@Override
 	public ResponseDTO createUser(String user, String password) {
 		LOGGER.info("Inicia procesamiento en capa de negocio");
 		ResponseDTO response = new ResponseDTO();
 		String result = "fail"; 
-		if (Utils.validateNullValue(user)) {
-			UserRepositoryImpl userDao = new UserRepositoryImpl();
+		if (Utils.validateNullValue(user) && Utils.validateNullValue(password)) {
 			result = userDao.createUser(user, password);
-			response.setCode("OK001");
+			response.setCode("OK000");
 			response.setStatus(result);
 		}else {
-			response.setCode("OK000");
+			response.setCode("ER001");
 			response.setStatus(result);
 			response.setErrors(new ResponseDTO.ErrorDTO("ER000","Error al crear usuario"));
 		}
@@ -34,14 +37,13 @@ public class UserServiceImpl implements UserService{
 	public ResponseDTO createUser(String user) {
 		LOGGER.info("Inicia procesamiento en capa de negocio");
 		ResponseDTO response = new ResponseDTO();
-		String result = "fail"; 
+		String result = "fail";
 		if (Utils.validateNullValue(user)) {
-			UserRepositoryImpl userDao = new UserRepositoryImpl();
 			result = userDao.createUser(user);
-			response.setCode("OK001");
+			response.setCode("OK000");
 			response.setStatus(result);
 		}else {
-			response.setCode("OK000");
+			response.setCode("ER001");
 			response.setStatus(result);
 			response.setErrors(new ResponseDTO.ErrorDTO("ER000","Error al crear usuario"));
 		}
@@ -54,10 +56,7 @@ public class UserServiceImpl implements UserService{
 		ResponseDTO response = new ResponseDTO();
 		String result = "fail";
 		if (Utils.validateNullValue(user) && Utils.validateNullValue(password)) {
-			UserRepositoryImpl userDao = new UserRepositoryImpl();
 			result = userDao.login(user, password);
-		}
-		if("success".equals(result)) {
 			response.setCode("OK000");
 			response.setStatus(result);
 		} else {
@@ -74,12 +73,11 @@ public class UserServiceImpl implements UserService{
 		ResponseDTO response = new ResponseDTO();
 		String result = "fail"; 
 		if (Utils.validateNullValue(user) && Utils.validateNullValue(newPassword)) {
-			UserRepositoryImpl userDao = new UserRepositoryImpl();
 			result = userDao.updateUser(user, newPassword);
 			response.setCode("OK000");
-			response.setStatus(result);
+			response.setStatus("success");
 		}else {
-			response.setCode("OK000");
+			response.setCode("ER001");
 			response.setStatus(result);
 			response.setErrors(new ResponseDTO.ErrorDTO("ER003","Error al actualizar usuario"));
 		}
@@ -92,12 +90,11 @@ public class UserServiceImpl implements UserService{
 		ResponseDTO response = new ResponseDTO();
 		String result = "fail"; 
 		if (Utils.validateNullValue(user)) {
-			UserRepositoryImpl userDao = new UserRepositoryImpl();
 			result = userDao.deleteUser(user);
 			response.setCode("OK000");
 			response.setStatus(result);
 		}else {
-			response.setCode("OK000");
+			response.setCode("ER001");
 			response.setStatus(result);
 			response.setErrors(new ResponseDTO.ErrorDTO("ER004","Error al borrar usuario"));
 		}

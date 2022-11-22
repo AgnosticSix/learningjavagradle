@@ -1,6 +1,5 @@
 package com.wizeline.gradle.learningjavagradle.controller;
 
-import com.wizeline.gradle.learningjavagradle.model.RandomPassword;
 import com.wizeline.gradle.learningjavagradle.model.ResponseDTO;
 import com.wizeline.gradle.learningjavagradle.model.UserDTO;
 import com.wizeline.gradle.learningjavagradle.repository.UserRepository;
@@ -22,6 +21,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+import static com.wizeline.gradle.learningjavagradle.Datos.Datos.*;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,8 +48,6 @@ public class UserControllerTest {
     @Mock
     UserRepository repository;
 
-
-
     @BeforeEach
     void init() {
         MockitoAnnotations.openMocks(this);
@@ -58,7 +56,7 @@ public class UserControllerTest {
     @Test
     public void createUserTest() {
         LOGGER.info("CreateUser Testing...");
-        lenient().when(userService.createUser(userDTO.getUser(), userDTO.getPassword())).thenReturn(responseDTO);
+        lenient().when(userService.createUser(USER_001.getUser(), USER_001.getPassword())).thenReturn(responseDTO);
 
         assertNotNull(userController.createUser(userDTO));
     }

@@ -22,10 +22,11 @@ import com.wizeline.gradle.learningjavagradle.model.UserDTO;
 import com.wizeline.gradle.learningjavagradle.singleton.RestTemplateConfig;
 import com.wizeline.gradle.learningjavagradle.utils.EncryptorRSA;
 import com.wizeline.gradle.learningjavagradle.utils.exceptions.ExcepcionGenerica;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserRepositoryImpl implements UserRepository{
 	private static final Logger LOGGER = Logger.getLogger(UserRepositoryImpl.class.getName());
-
 
 	@Autowired
 	MongoTemplate template;
