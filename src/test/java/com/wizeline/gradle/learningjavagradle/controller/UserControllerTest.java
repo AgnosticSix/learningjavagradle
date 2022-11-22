@@ -35,7 +35,7 @@ public class UserControllerTest {
     @InjectMocks
     UserController userController;
 
-    @MockBean
+    @Mock
     UserServiceImpl userService;
 
     @MockBean
@@ -47,7 +47,7 @@ public class UserControllerTest {
     @Mock
     ResponseDTO responseDTO;
 
-    @InjectMocks
+    @Mock
     UserRepositoryImpl repository;
 
     @BeforeEach
@@ -96,14 +96,16 @@ public class UserControllerTest {
     @Test
     public void updateUserTest() {
         LOGGER.info("UpdateUser Testing...");
-        lenient().when(userService.updateUser(userDTO.getUser(), userDTO.getPassword())).thenReturn(responseDTO);
-        assertNotNull(userController.updateUser(userDTO));
+        userService.createUser(USER_001.getUser(), USER_001.getPassword());
+        lenient().when(userService.updateUser(USER_001.getUser(), USER_002.getPassword())).thenReturn(responseDTO);
+        assertNotNull(userController.updateUser(new UserDTO(USER_001.getUser(), USER_002.getPassword())));
     }
 
     @Test
     public void deleteUserTest() {
         LOGGER.info("DeleteUser Testing...");
-        lenient().when(userService.deleteUser(userDTO.getUser())).thenReturn(responseDTO);
-        assertNotNull(userController.deleteUser(userDTO.getUser()));
+        userService.createUser(USER_001.getUser(), USER_001.getPassword());
+        lenient().when(userService.deleteUser(USER_001.getUser())).thenReturn(responseDTO);
+        assertNotNull(userController.deleteUser(USER_001.getUser()));
     }
 }
