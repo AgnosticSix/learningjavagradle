@@ -3,7 +3,9 @@ package com.wizeline.gradle.learningjavagradle.controller;
 import com.wizeline.gradle.learningjavagradle.model.ResponseDTO;
 import com.wizeline.gradle.learningjavagradle.model.UserDTO;
 import com.wizeline.gradle.learningjavagradle.repository.UserRepository;
+import com.wizeline.gradle.learningjavagradle.repository.UserRepositoryImpl;
 import com.wizeline.gradle.learningjavagradle.service.UserService;
+import com.wizeline.gradle.learningjavagradle.service.UserServiceImpl;
 import com.wizeline.gradle.learningjavagradle.utils.CommonServices;
 import com.wizeline.gradle.learningjavagradle.utils.CreaUsuariosThread;
 
@@ -33,8 +35,8 @@ public class UserControllerTest {
     @InjectMocks
     UserController userController;
 
-    @Mock
-    UserService userService;
+    @MockBean
+    UserServiceImpl userService;
 
     @MockBean
     CommonServices commonServices;
@@ -45,8 +47,8 @@ public class UserControllerTest {
     @Mock
     ResponseDTO responseDTO;
 
-    @Mock
-    UserRepository repository;
+    @InjectMocks
+    UserRepositoryImpl repository;
 
     @BeforeEach
     void init() {
